@@ -1,8 +1,10 @@
 import OptionButton from "@/components/option/option-button";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useCreateStory } from "@/hooks/mutations/story/use-create-story";
 import { useShortsOptions } from "@/store/options";
 import type { ShortsEnding, ShortsGenre, ShortsLength } from "@/type";
+import { toast } from "sonner";
 
 export default function OptionsPage() {
   const LENGTHS: ShortsLength[] = ["10", "20", "30"];
@@ -10,6 +12,13 @@ export default function OptionsPage() {
   const ENDINGS: ShortsEnding[] = ["반전", "교훈", "열린 결말"];
 
   const { options, setLength, setGenre, setEnding } = useShortsOptions();
+  const { mutate, isPending } = useCreateStory({
+    onError: (error) => {
+      toast.error("스토리 생성에 실패했습니다.", {
+        position: "top-center",
+      });
+    },
+  });
 
   return (
     <div className="mx-auto flex max-w-xl flex-col gap-8 px-4 py-10">
@@ -70,7 +79,12 @@ export default function OptionsPage() {
         </CardContent>
       </Card>
 
-      <Button size="lg" className="mt-4 w-full">
+      <Button
+        size="lg"
+        className="mt-4 w-full"
+        disabled={isPending}
+        onClick={() => mutate(options)}
+      >
         스토리 생성하기
       </Button>
     </div>

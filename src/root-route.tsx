@@ -10,6 +10,7 @@ import GuestOnlyLayout from "./components/layout/guest-only-layout";
 import IndexPage from "./pages/index-page";
 
 import OptionsPage from "./pages/options-page";
+import ResultPage from "./pages/result-page";
 
 export default function RootRoute() {
   return (
@@ -26,7 +27,7 @@ export default function RootRoute() {
         {/* <Route path="/" element={<LandingPage />} /> */}
         <Route element={<MemberOnlyLayout />}>
           <Route path="/options" element={<OptionsPage />} />
-          <Route path="/story" element={<div>Story</div>} />
+          <Route path="/result/:storyId" element={<ResultPage />} />
           <Route path="/export" element={<div>Export</div>} />
         </Route>
 
