@@ -1,5 +1,4 @@
 import { Outlet, Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { useSession } from "@/store/session";
 import ThemeButton from "./header/theme-button";
 import ProfileButton from "./header/profile-button";

@@ -11,6 +11,7 @@ import IndexPage from "./pages/index-page";
 
 import OptionsPage from "./pages/options-page";
 import ResultPage from "./pages/result-page";
+import ProfileDetailPage from "./pages/profile-detail-page";
 
 export default function RootRoute() {
   return (
@@ -28,6 +29,7 @@ export default function RootRoute() {
         <Route element={<MemberOnlyLayout />}>
           <Route path="/options" element={<OptionsPage />} />
           <Route path="/result/:storyId" element={<ResultPage />} />
+          <Route path="/profile/:userId" element={<ProfileDetailPage />} />
           <Route path="/export" element={<div>Export</div>} />
         </Route>
 
