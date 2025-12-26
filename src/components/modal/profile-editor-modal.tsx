@@ -8,6 +8,9 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useProfileEditorModal } from "@/store/profile-editor-modal";
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
+import { updateProfile } from "@/api/profile";
+import { toast } from "sonner";
+import { useUpdateProfile } from "@/hooks/mutations/profile/use-update-profile";
 // import { useUpdateProfile } from "@/hooks/mutations/profile/use-update-profile";
 // import { toast } from "sonner";
 
@@ -27,17 +30,17 @@ export default function ProfileEdiModal() {
     actions: { close },
   } = store;
 
-  // const { mutate: updateProfile, isPending: isUpdateProfilePending } =
-  //   useUpdateProfile({
-  //     onSuccess: () => {
-  //       close();
-  //     },
-  //     onError: (error) => {
-  //       toast.error("프로필 수정에 실패했습니다", {
-  //         position: "top-center",
-  //       });
-  //     },
-  //   });
+  const { mutate: updateProfile, isPending: isUpdateProfilePending } =
+    useUpdateProfile({
+      onSuccess: () => {
+        close();
+      },
+      onError: (error) => {
+        toast.error("프로필 수정에 실패했습니다", {
+          position: "top-center",
+        });
+      },
+    });
 
   const [avatarImage, setAvatarImage] = useState<Image | null>(null);
   const [nickname, setNickname] = useState("");
@@ -59,15 +62,15 @@ export default function ProfileEdiModal() {
     }
   }, [profile, isOpen]);
 
-  // const handleUpdateClick = () => {
-  //   if (nickname.trim() === "") return;
-  //   updateProfile({
-  //     userId: session!.user.id,
-  //     nickname,
-  //     bio,
-  //     avatarImageFile: avatarImage?.file,
-  //   });
-  // };
+  const handleUpdateClick = () => {
+    if (nickname.trim() === "") return;
+    updateProfile({
+      userId: session!.user.id,
+      nickname,
+      bio,
+      avatarImageFile: avatarImage?.file,
+    });
+  };
 
   const handleSelectImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -94,7 +97,7 @@ export default function ProfileEdiModal() {
             <div className="flex flex-col gap-2">
               <div className="text-muted-foreground">프로필 이미지</div>
               <input
-                // disabled={isUpdateProfilePending}
+                disabled={isUpdateProfilePending}
                 onChange={handleSelectImage}
                 ref={fileInputRef}
                 type="file"
@@ -131,7 +134,7 @@ export default function ProfileEdiModal() {
 
             <Button
               // disabled={isUpdateProfilePending}
-              // onClick={handleUpdateClick}
+              onClick={handleUpdateClick}
               className="cursor-pointer"
             >
               수정하기
