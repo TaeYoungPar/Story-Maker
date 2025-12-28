@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import FeatureCard from "./feature-card";
+import FeatureCard from "../../components/main/feature-card";
 
 export default function BeforeLoginMain() {
   return (

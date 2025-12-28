@@ -36,7 +36,7 @@ export default function StoryDetail({ userId }: { userId: string }) {
     <div className="mx-auto max-w-2xl space-y-6 p-6">
       {stories.map((story) => (
         <Link to={`/result/${story.id}`} key={story.id}>
-          <article className="m-5 rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-md">
+          <article className="m-5 rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-lg">
             <div className="mb-3 flex flex-wrap justify-end gap-2 text-xs">
               {story.is_public ? (
                 <span className="rounded-full bg-green-100 px-2 py-1 text-green-700">

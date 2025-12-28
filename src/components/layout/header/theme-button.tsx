@@ -18,7 +18,7 @@ export default function ThemeButton() {
     <Popover>
       <PopoverTrigger>
         <div className="hover:bg-muted cursor-pointer rounded-full p-2">
-          <SunIcon />
+          <SunIcon className="h-7 w-7" />
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-35 p-0">

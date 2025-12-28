@@ -3,11 +3,7 @@ import { Navigate, Outlet } from "react-router-dom";
 
 export default function MemberOnlyLayout() {
   const session = useSession();
-  if (!session) return <Navigate to={"/sign-in"} replace={true} />;
+  if (!session) return <Navigate to={"/"} replace={true} />;
 
-  return (
-    <div>
-      <Outlet />
-    </div>
-  );
+  return <Outlet />;
 }

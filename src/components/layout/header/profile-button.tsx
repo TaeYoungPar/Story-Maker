@@ -21,7 +21,7 @@ export default function ProfileButton() {
       <PopoverTrigger>
         <img
           src={profile?.avatar_url || defaultAvatar}
-          className="h-6 w-6 cursor-pointer rounded-full object-cover"
+          className="h-8 w-8 cursor-pointer rounded-full object-cover"
         />
       </PopoverTrigger>
       <PopoverContent className="flex w-40 flex-col p-0">
