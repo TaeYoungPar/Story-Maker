@@ -1,4 +1,5 @@
 import OptionButton from "@/components/option/option-button";
+import StoryLoadingModal from "@/components/story-loader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useCreateStory } from "@/hooks/mutations/story/use-create-story";
@@ -87,6 +88,8 @@ export default function OptionsPage() {
       >
         스토리 생성하기
       </Button>
+
+      {isPending && <StoryLoadingModal />}
     </div>
   );
 }

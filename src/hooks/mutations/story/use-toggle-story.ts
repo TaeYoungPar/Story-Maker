@@ -8,14 +8,17 @@ export function useToggleStory(storyId: number) {
   return useMutation({
     mutationFn: togglePublic,
     onSuccess: () => {
-      queryClient.setQueryData<StoryEntity>(["story", storyId], (story) => {
-        if (!story) return story;
+      queryClient.setQueryData<StoryEntity>(
+        ["story", "byId", storyId],
+        (story) => {
+          if (!story) return story;
 
-        return {
-          ...story,
-          is_public: !story.is_public,
-        };
-      });
+          return {
+            ...story,
+            is_public: !story.is_public,
+          };
+        },
+      );
     },
   });
 }

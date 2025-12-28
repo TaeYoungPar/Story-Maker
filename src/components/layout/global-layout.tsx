@@ -22,7 +22,7 @@ export default function GlobalLayout() {
         </div>
       </header>
 
-      <main className="w-full flex-1 border-x px-4 py-6">
+      <main className="w-full flex-1 border-x">
         <Outlet />
       </main>
 

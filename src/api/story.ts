@@ -10,11 +10,34 @@ export async function createStory(options: ShortsOptions) {
   return data;
 }
 
-export async function fetchStory(storyId: number) {
+export async function fetchByStoryIdData(storyId: number) {
   const { data, error } = await supabase
     .from("stories")
-    .select("id, content, is_public, author_id, created_at")
+    .select("*")
     .eq("id", storyId)
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
+export async function fetchByUserIdData(userId: string) {
+  const { data, error } = await supabase
+    .from("stories")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .eq("author_id", userId);
+
+  if (error) throw error;
+  return data;
+}
+
+export async function fetchRecentStory() {
+  const { data, error } = await supabase
+    .from("stories")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(1)
     .single();
 
   if (error) throw error;
@@ -34,4 +57,21 @@ export async function togglePublic({
     .eq("id", storyId);
 
   if (error) throw error;
+}
+
+const PAGE_SIZE = 2;
+
+export async function fetchStoriesByUserInfinite(userId: string, page: number) {
+  const from = page * PAGE_SIZE;
+  const to = from + PAGE_SIZE - 1;
+
+  const { data, error } = await supabase
+    .from("stories")
+    .select("*")
+    .eq("author_id", userId)
+    .order("created_at", { ascending: false })
+    .range(from, to);
+
+  if (error) throw error;
+  return data;
 }

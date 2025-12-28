@@ -20,7 +20,7 @@ export default function ProfileInfo({ userId }: { userId: string }) {
   const isMine = session?.user.id === userId;
 
   return (
-    <div className="flex flex-col items-center justify-center gap-5">
+    <div className="mt-10 flex flex-col items-center justify-center gap-5">
       <img
         src={profile.avatar_url || defaultAvatar}
         className="h-30 w-30 rounded-full object-cover"

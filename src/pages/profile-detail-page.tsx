@@ -2,6 +2,7 @@
 import ProfileInfo from "@/components/profile/profile-info";
 import { useEffect } from "react";
 import { Navigate, useParams } from "react-router";
+import StoryDetail from "./story-detail";
 
 export default function ProfileDetailPage() {
   const params = useParams();
@@ -18,6 +19,7 @@ export default function ProfileDetailPage() {
       <ProfileInfo userId={userId} />
       <div className="border-b"></div>
       {/* <PostFeed authorId={userId} /> */}
+      {<StoryDetail userId={userId} />}
     </div>
   );
 }

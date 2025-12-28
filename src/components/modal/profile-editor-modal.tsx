@@ -8,11 +8,8 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useProfileEditorModal } from "@/store/profile-editor-modal";
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
-import { updateProfile } from "@/api/profile";
 import { toast } from "sonner";
 import { useUpdateProfile } from "@/hooks/mutations/profile/use-update-profile";
-// import { useUpdateProfile } from "@/hooks/mutations/profile/use-update-profile";
-// import { toast } from "sonner";
 
 type Image = { file: File; previewUrl: string };
 
@@ -35,7 +32,7 @@ export default function ProfileEdiModal() {
       onSuccess: () => {
         close();
       },
-      onError: (error) => {
+      onError: () => {
         toast.error("프로필 수정에 실패했습니다", {
           position: "top-center",
         });
@@ -118,22 +115,24 @@ export default function ProfileEdiModal() {
             <div className="flex flex-col gap-2">
               <div className="text-muted-foreground">닉네임</div>
               <Input
-                // disabled={isUpdateProfilePending}
+                disabled={isUpdateProfilePending}
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
+                maxLength={8}
               />
             </div>
             <div className="flex flex-col gap-2">
               <div className="text-muted-foreground">소개</div>
               <Input
-                // disabled={isUpdateProfilePending}
+                disabled={isUpdateProfilePending}
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
+                maxLength={30}
               />
             </div>
 
             <Button
-              // disabled={isUpdateProfilePending}
+              disabled={isUpdateProfilePending}
               onClick={handleUpdateClick}
               className="cursor-pointer"
             >
