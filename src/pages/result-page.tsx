@@ -27,7 +27,6 @@ export default function ResultPage() {
   return (
     <div className="mx-auto max-w-xl p-6">
       <article className="rounded-xl border bg-white p-6 shadow-sm">
-        {/* 헤더 */}
         <div className="mb-4 flex items-center justify-between">
           <h1 className="text-lg font-semibold">생성된 스토리</h1>
 
@@ -48,7 +47,6 @@ export default function ResultPage() {
           )}
         </div>
 
-        {/* 메타 정보 */}
         <div className="mb-4 flex flex-wrap gap-2 text-xs">
           {story.is_public ? (
             <span className="rounded-full bg-green-100 px-2 py-1 text-green-700">
@@ -73,12 +71,10 @@ export default function ResultPage() {
           </span>
         </div>
 
-        {/* 본문 */}
         <div className="rounded-lg border bg-gray-50 p-4 text-sm leading-relaxed whitespace-pre-line text-gray-800">
           {story.content}
         </div>
 
-        {/* 푸터 */}
         <div className="mt-4 text-right text-xs text-gray-400">
           {new Date(story.created_at).toLocaleDateString()}
         </div>
