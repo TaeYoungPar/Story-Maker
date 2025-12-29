@@ -11,7 +11,7 @@ export default function SidebarItem({
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `rounded-md px-4 py-2 transition ${
+        `flex justify-center rounded-md px-4 py-2 transition ${
           isActive ? "bg-muted" : "hover:bg-muted"
         } `
       }

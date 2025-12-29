@@ -11,7 +11,7 @@ export default function GlobalLayout() {
     <div className="flex min-h-screen flex-col">
       <ScrollToTop />
       <header className="h-15 border-b">
-        <div className="m-auto flex h-full w-full justify-between px-4">
+        <div className="m-auto flex h-full w-full justify-between px-10 pr-20">
           <Link
             to="/"
             className="flex items-center justify-center text-lg font-bold"

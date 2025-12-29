@@ -19,12 +19,23 @@ export default function RecentWork() {
         최근 작업
       </h2>
 
-      <div className="flex items-center justify-between">
-        <span className="text-sm">최근 생성한 스토리</span>
-        <Button variant="ghost" size="sm" asChild>
-          <Link to={`/result/${data?.[0].id}`}>확인하기</Link>
-        </Button>
-      </div>
+      {!data || data.length === 0 ? (
+        <div className="flex items-center justify-between">
+          <span className="text-gray-400">
+            아직 작성된 스토리가 없습니다.
+            <Button variant="ghost" size="sm" asChild>
+              <Link to={"/options"}>생성하기</Link>
+            </Button>
+          </span>
+        </div>
+      ) : (
+        <div className="flex items-center justify-between">
+          <span className="text-sm">최근 생성한 스토리</span>
+          <Button variant="ghost" size="sm" asChild>
+            <Link to={`/result/${data[0].id}`}>확인하기</Link>
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
