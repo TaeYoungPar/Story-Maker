@@ -63,3 +63,9 @@ export async function fetchStoriesByUserInfinite(userId: string, page: number) {
   if (error) throw error;
   return data;
 }
+
+export async function deleteStoryByid(storyId: number) {
+  const { error } = await supabase.from("stories").delete().eq("id", storyId);
+
+  if (error) throw error;
+}
