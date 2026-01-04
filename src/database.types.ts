@@ -43,21 +43,21 @@ export type Database = {
       }
       profile: {
         Row: {
-          avatar_url: string
+          avatar_url: string | null
           bio: string
           created_at: string
           id: string
           nickname: string
         }
         Insert: {
-          avatar_url: string
-          bio: string
+          avatar_url?: string | null
+          bio?: string
           created_at?: string
           id?: string
-          nickname: string
+          nickname?: string
         }
         Update: {
-          avatar_url?: string
+          avatar_url?: string | null
           bio?: string
           created_at?: string
           id?: string
@@ -75,6 +75,8 @@ export type Database = {
           id: number
           is_public: boolean
           length: string
+          like_count: number
+          views: number
         }
         Insert: {
           author_id?: string
@@ -85,6 +87,8 @@ export type Database = {
           id?: number
           is_public?: boolean
           length: string
+          like_count?: number
+          views?: number
         }
         Update: {
           author_id?: string
@@ -95,8 +99,39 @@ export type Database = {
           id?: number
           is_public?: boolean
           length?: string
+          like_count?: number
+          views?: number
         }
         Relationships: []
+      }
+      story_views: {
+        Row: {
+          created_at: string
+          id: number
+          story_id: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          story_id: number
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          story_id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "story_views_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "stories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

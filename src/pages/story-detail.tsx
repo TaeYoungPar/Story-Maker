@@ -106,6 +106,16 @@ export default function StoryDetail({ userId }: { userId: string }) {
             <div className="mt-2 text-right text-xs text-gray-400">
               클릭해서 전체 보기 →
             </div>
+            <div className="mt-3 flex items-center justify-between text-xs text-gray-400">
+              <div className="flex gap-4">
+                <span className="flex items-center gap-1">
+                  👀 {story.views}
+                </span>
+                <span className="flex items-center gap-1">
+                  ❤️ {story.like_count}
+                </span>
+              </div>
+            </div>
 
             <div className="mt-4 flex justify-end text-xs text-gray-400">
               {new Date(story.created_at).toLocaleDateString()}

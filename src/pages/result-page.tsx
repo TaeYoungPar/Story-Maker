@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { useSession } from "@/store/session";
 import { useStoryData } from "@/hooks/queries/use-story-data";
 import { useToggleStory } from "@/hooks/mutations/story/use-toggle-story";
+import { useCreateStoryView } from "@/hooks/mutations/story/use-create-stroy-view";
+import { useEffect, useRef } from "react";
 
 export default function ResultPage() {
   const { storyId } = useParams<{ storyId: string }>();
@@ -16,6 +18,18 @@ export default function ResultPage() {
 
   const { data: story, isLoading, error } = useStoryData(parsedStoryId);
   const { mutate: toggle, isPending } = useToggleStory(parsedStoryId);
+
+  const hasLoggedView = useRef(false);
+  const { mutate: logView } = useCreateStoryView(parsedStoryId);
+
+  useEffect(() => {
+    if (!story) return;
+
+    if (hasLoggedView.current) return;
+
+    logView();
+    hasLoggedView.current = true;
+  }, [story, logView]);
 
   if (isLoading)
     return <div className="py-20 text-center text-gray-400">불러오는 중…</div>;
@@ -69,6 +83,11 @@ export default function ResultPage() {
           <span className="rounded-full bg-gray-100 px-2 py-1 text-gray-600">
             {story.ending}
           </span>
+        </div>
+
+        <div className="mb-3 flex items-center gap-4 text-xs text-gray-400">
+          <span className="flex items-center gap-1">👀 {story.views}</span>
+          <span className="flex items-center gap-1">❤️ {story.like_count}</span>
         </div>
 
         <div className="rounded-lg border bg-gray-50 p-4 text-sm leading-relaxed whitespace-pre-line text-gray-800">
