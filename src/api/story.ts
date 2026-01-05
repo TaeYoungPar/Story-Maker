@@ -10,23 +10,28 @@ export async function createStory(options: ShortsOptions) {
   return data;
 }
 
-export async function fetchByStoryIdData(storyId: number) {
+export async function fetchByStoryIdData(storyId: number, userId: string) {
   const { data, error } = await supabase
     .from("stories")
     .select(
       `
     *,
-    story_views:story_views(count)
+    views:story_views(count),
+    likes:story_likes(count),
+    my_like:story_likes(user_id)
   `,
     )
     .eq("id", storyId)
+    .eq("story_likes.user_id", userId)
     .single();
 
   if (error) throw error;
 
   return {
     ...data,
-    views: data.story_views?.[0]?.count ?? 0,
+    views: data.views?.[0]?.count ?? 0,
+    like_count: data.likes?.[0]?.count ?? 0,
+    liked: data.my_like.length > 0,
   };
 }
 
@@ -67,7 +72,8 @@ export async function fetchStoriesByUserInfinite(userId: string, page: number) {
     .select(
       `
       *,
-      story_views:story_views(count)
+      views:story_views(count),
+      likes:story_likes(count)
     `,
     )
     .eq("author_id", userId)
@@ -78,7 +84,8 @@ export async function fetchStoriesByUserInfinite(userId: string, page: number) {
 
   return data.map((story) => ({
     ...story,
-    views: story.story_views?.[0]?.count ?? 0,
+    views: story.views?.[0]?.count ?? 0,
+    like_count: story.likes?.[0]?.count ?? 0,
   }));
 }
 
@@ -92,6 +99,24 @@ export async function createStoryView(storyId: number) {
   const { error } = await supabase.from("story_views").insert({
     story_id: storyId,
   });
+
+  if (error) throw error;
+}
+
+export async function likeStory(storyId: number, userId: string) {
+  const { error } = await supabase.from("story_likes").insert({
+    story_id: storyId,
+    user_id: userId,
+  });
+  if (error) throw error;
+}
+
+export async function unlikeStory(storyId: number, userId: string) {
+  const { error } = await supabase
+    .from("story_likes")
+    .delete()
+    .eq("story_id", storyId)
+    .eq("user_id", userId);
 
   if (error) throw error;
 }

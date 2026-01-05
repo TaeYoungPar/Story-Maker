@@ -75,8 +75,6 @@ export type Database = {
           id: number
           is_public: boolean
           length: string
-          like_count: number
-          views: number
         }
         Insert: {
           author_id?: string
@@ -87,8 +85,6 @@ export type Database = {
           id?: number
           is_public?: boolean
           length: string
-          like_count?: number
-          views?: number
         }
         Update: {
           author_id?: string
@@ -99,10 +95,37 @@ export type Database = {
           id?: number
           is_public?: boolean
           length?: string
-          like_count?: number
-          views?: number
         }
         Relationships: []
+      }
+      story_likes: {
+        Row: {
+          created_at: string
+          id: number
+          story_id: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          story_id: number
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          story_id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "story_likes_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "stories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       story_views: {
         Row: {

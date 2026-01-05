@@ -6,6 +6,7 @@ import { useStoryData } from "@/hooks/queries/use-story-data";
 import { useToggleStory } from "@/hooks/mutations/story/use-toggle-story";
 import { useCreateStoryView } from "@/hooks/mutations/story/use-create-stroy-view";
 import { useEffect, useRef } from "react";
+import { useToggleLike } from "@/hooks/mutations/story/use-toggle-like-story";
 
 export default function ResultPage() {
   const { storyId } = useParams<{ storyId: string }>();
@@ -21,6 +22,7 @@ export default function ResultPage() {
 
   const hasLoggedView = useRef(false);
   const { mutate: logView } = useCreateStoryView(parsedStoryId);
+  const { mutate: toggleLike, isPending: likeIsPending } = useToggleLike();
 
   useEffect(() => {
     if (!story) return;
@@ -87,7 +89,22 @@ export default function ResultPage() {
 
         <div className="mb-3 flex items-center gap-4 text-xs text-gray-400">
           <span className="flex items-center gap-1">👀 {story.views}</span>
-          <span className="flex items-center gap-1">❤️ {story.like_count}</span>
+          <Button
+            variant={"ghost"}
+            disabled={isPending}
+            onClick={() =>
+              toggleLike({
+                storyId: story.id,
+                userId: session!.user.id,
+                liked: story.liked,
+              })
+            }
+            className={`flex cursor-pointer items-center gap-1 text-sm transition ${
+              story.liked ? "text-red-500" : "text-gray-400 hover:text-red-400"
+            }`}
+          >
+            ❤️ {story.like_count}
+          </Button>
         </div>
 
         <div className="rounded-lg border bg-gray-50 p-4 text-sm leading-relaxed whitespace-pre-line text-gray-800">
