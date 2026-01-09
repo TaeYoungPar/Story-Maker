@@ -24,8 +24,9 @@ export type ShortsOptions = {
 };
 
 export type StoryDetail = Omit<StoryEntity, "ending" | "genre" | "length">;
-export type StoryView = StoryEntity & {
+export type StroyExtraType = {
   like_count: number;
   views: number;
   liked: boolean;
 };
+export type StoryView = StoryEntity & StroyExtraType;

@@ -20,6 +20,7 @@ export default function SideLayout() {
           <SidebarItem to="/main" label="메인 화면" />
           <SidebarItem to="/options" label="새 스토리" />
           <SidebarItem to={`/profile/${session.user.id}`} label="내 프로필" />
+          <SidebarItem to={`/stories`} label="공개된 스토리" />
         </nav>
       </aside>
 

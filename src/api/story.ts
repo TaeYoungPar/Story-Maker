@@ -1,4 +1,4 @@
-import type { ShortsOptions } from "@/type";
+import type { ShortsOptions, StoryView } from "@/type";
 import supabase from "@/utils/supabase";
 
 export async function createStory(options: ShortsOptions) {
@@ -10,7 +10,10 @@ export async function createStory(options: ShortsOptions) {
   return data;
 }
 
-export async function fetchByStoryIdData(storyId: number, userId: string) {
+export async function fetchByStoryIdData(
+  storyId: number,
+  userId: string,
+): Promise<StoryView> {
   const { data, error } = await supabase
     .from("stories")
     .select(
@@ -35,7 +38,7 @@ export async function fetchByStoryIdData(storyId: number, userId: string) {
   };
 }
 
-export async function fetchByUserIdData(userId: string) {
+export async function fetchByUserIdData(userId: string): Promise<StoryView[]> {
   const { data, error } = await supabase
     .from("stories")
     .select("*")
@@ -61,9 +64,11 @@ export async function togglePublic({
   if (error) throw error;
 }
 
-const PAGE_SIZE = 2;
-
-export async function fetchStoriesByUserInfinite(userId: string, page: number) {
+export async function fetchStoriesByUserInfinite(
+  userId: string,
+  page: number,
+): Promise<StoryView[]> {
+  const PAGE_SIZE = 2;
   const from = page * PAGE_SIZE;
   const to = from + PAGE_SIZE - 1;
 
@@ -73,20 +78,25 @@ export async function fetchStoriesByUserInfinite(userId: string, page: number) {
       `
       *,
       views:story_views(count),
-      likes:story_likes(count)
+      likes:story_likes(count),
+      my_like:story_likes(user_id)
     `,
     )
     .eq("author_id", userId)
+    .eq("story_likes.user_id", userId)
     .order("created_at", { ascending: false })
     .range(from, to);
 
   if (error) throw error;
 
-  return data.map((story) => ({
-    ...story,
-    views: story.views?.[0]?.count ?? 0,
-    like_count: story.likes?.[0]?.count ?? 0,
-  }));
+  return (
+    data?.map((story) => ({
+      ...story,
+      views: story.views?.[0]?.count ?? 0,
+      like_count: story.likes?.[0]?.count ?? 0,
+      liked: story.my_like.length > 0,
+    })) ?? []
+  );
 }
 
 export async function deleteStoryByid(storyId: number) {
@@ -119,4 +129,42 @@ export async function unlikeStory(storyId: number, userId: string) {
     .eq("user_id", userId);
 
   if (error) throw error;
+}
+
+export async function fetchPublicStoriesInfinity({
+  page,
+  userId,
+}: {
+  page: number;
+  userId: string;
+}): Promise<StoryView[]> {
+  const PAGE_SIZE = 5;
+  const from = page * PAGE_SIZE;
+  const to = from + PAGE_SIZE - 1;
+
+  const { data, error } = await supabase
+    .from("stories")
+    .select(
+      `
+      *,
+      views:story_views(count),
+      likes:story_likes(count),
+      my_like:story_likes(user_id)
+    `,
+    )
+    .eq("is_public", true)
+    .eq("story_likes.user_id", userId)
+    .order("created_at", { ascending: false })
+    .range(from, to);
+
+  if (error) throw error;
+
+  return (
+    data?.map((story) => ({
+      ...story,
+      views: story.views?.[0]?.count ?? 0,
+      like_count: story.likes?.[0]?.count ?? 0,
+      liked: story.my_like.length > 0,
+    })) ?? []
+  );
 }

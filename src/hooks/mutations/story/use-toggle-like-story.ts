@@ -20,7 +20,6 @@ export function useToggleLike() {
       }
     },
 
-    // ✅ Optimistic UI
     onMutate: async ({ storyId, liked }) => {
       await queryClient.cancelQueries({
         queryKey: ["story", "byId", storyId],
@@ -47,14 +46,12 @@ export function useToggleLike() {
       return { prev };
     },
 
-    // ❌ 실패 시 롤백
     onError: (_err, vars, ctx) => {
       if (ctx?.prev) {
         queryClient.setQueryData(["story", "byId", vars.storyId], ctx.prev);
       }
     },
 
-    // ✅ 서버 기준 재동기화
     onSettled: (_data, _error, vars) => {
       queryClient.invalidateQueries({
         queryKey: ["story", "byId", vars.storyId],

@@ -1,4 +1,4 @@
-import { useParams, Navigate } from "react-router-dom";
+import { useParams, Navigate, data } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 import { useSession } from "@/store/session";
@@ -22,7 +22,7 @@ export default function ResultPage() {
 
   const hasLoggedView = useRef(false);
   const { mutate: logView } = useCreateStoryView(parsedStoryId);
-  const { mutate: toggleLike, isPending: likeIsPending } = useToggleLike();
+  const { mutate: toggleLike } = useToggleLike();
 
   useEffect(() => {
     if (!story) return;
@@ -44,10 +44,13 @@ export default function ResultPage() {
     <div className="mx-auto max-w-xl p-6">
       <article className="rounded-xl border bg-white p-6 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
-          <h1 className="text-lg font-semibold">생성된 스토리</h1>
+          <h1 className="text-lg font-semibold dark:text-black">
+            생성된 스토리
+          </h1>
 
           {isOwner && (
             <Button
+              className="hover:cursor-pointer dark:text-black"
               variant="outline"
               size="sm"
               disabled={isPending}

@@ -32,7 +32,7 @@ export default function RecentWork() {
         <div className="flex items-center justify-between">
           <span className="text-sm">최근 생성한 스토리</span>
           <Button variant="ghost" size="sm" asChild>
-            <Link to={`/result/${data[0].id}`}>확인하기</Link>
+            <Link to={`/story/${data[0].id}`}>확인하기</Link>
           </Button>
         </div>
       )}

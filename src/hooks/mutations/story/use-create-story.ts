@@ -8,7 +8,7 @@ export function useCreateStory(callbacks?: UseMutationCallback) {
   return useMutation({
     mutationFn: createStory,
     onSuccess: (data) => {
-      navigate(`/result/${data.id}`, {
+      navigate(`/story/${data.id}`, {
         state: { story: data.story },
       });
     },
