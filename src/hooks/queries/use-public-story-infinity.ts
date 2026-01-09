@@ -3,7 +3,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 export function usePublicStoriesInfinity(userId: string) {
   return useInfiniteQuery({
-    queryKey: ["story", "list", "byId", userId],
+    queryKey: ["story", "list", "byId", "public", userId],
     queryFn: ({ pageParam = 0 }) =>
       fetchPublicStoriesInfinity({ page: pageParam, userId }),
     enabled: !!userId,
