@@ -3,7 +3,7 @@ import { fetchStoriesByUserInfinite } from "@/api/story";
 
 export function useStoryInfinite(userId: string) {
   return useInfiniteQuery({
-    queryKey: ["story", "list", "byId", userId],
+    queryKey: ["story", "list", "user", userId],
     queryFn: ({ pageParam = 0 }) =>
       fetchStoriesByUserInfinite(userId, pageParam),
     enabled: !!userId,

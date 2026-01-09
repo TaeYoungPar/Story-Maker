@@ -8,7 +8,7 @@ export function useCreateStoryView(storyId: number) {
     mutationFn: () => createStoryView(storyId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["story", "byId", storyId],
+        queryKey: ["story", "detail", storyId],
       });
     },
   });
