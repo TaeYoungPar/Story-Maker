@@ -56,12 +56,16 @@ export async function togglePublic({
   storyId: number;
   isPublic: boolean;
 }) {
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("stories")
     .update({ is_public: !isPublic })
-    .eq("id", storyId);
+    .eq("id", storyId)
+    .select("*")
+    .single();
 
   if (error) throw error;
+
+  return data;
 }
 
 export async function fetchStoriesByUserInfinite(
@@ -131,13 +135,10 @@ export async function unlikeStory(storyId: number, userId: string) {
   if (error) throw error;
 }
 
-export async function fetchPublicStoriesInfinity({
-  page,
-  userId,
-}: {
-  page: number;
-  userId: string;
-}): Promise<StoryView[]> {
+export async function fetchPublicStoriesInfinity(
+  userId: string,
+  page: number,
+): Promise<StoryView[]> {
   const PAGE_SIZE = 5;
   const from = page * PAGE_SIZE;
   const to = from + PAGE_SIZE - 1;

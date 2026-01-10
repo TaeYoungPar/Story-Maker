@@ -16,9 +16,13 @@ export default function ResultPage() {
   if (!storyId) {
     return <Navigate to="/" replace />;
   }
+  if (!session) return null;
 
   const { data: story, isLoading, error } = useStoryData(parsedStoryId);
-  const { mutate: toggle, isPending } = useToggleStory(parsedStoryId);
+  const { mutate: toggle, isPending } = useToggleStory(
+    parsedStoryId,
+    session.user.id,
+  );
 
   const hasLoggedView = useRef(false);
   const { mutate: logView } = useCreateStoryView(parsedStoryId);

@@ -5,7 +5,7 @@ export function usePublicStoriesInfinity(userId: string) {
   return useInfiniteQuery({
     queryKey: ["story", "list", "public"],
     queryFn: ({ pageParam = 0 }) =>
-      fetchPublicStoriesInfinity({ page: pageParam, userId }),
+      fetchPublicStoriesInfinity(userId, pageParam),
     enabled: !!userId,
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {
