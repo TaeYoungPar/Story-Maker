@@ -20,16 +20,24 @@ export default function ProfileInfo({ userId }: { userId: string }) {
   const isMine = session?.user.id === userId;
 
   return (
-    <div className="mt-10 flex flex-col items-center justify-center gap-5">
+    <div className="relative mt-16 flex flex-col items-center justify-center gap-6 text-center">
+      <div className="absolute -top-10 h-40 w-40 rounded-full bg-indigo-500/10 blur-[60px] dark:bg-indigo-500/20" />
+
       <img
         src={profile.avatar_url || defaultAvatar}
-        className="h-30 w-30 rounded-full object-cover"
+        className="h-32 w-32 rounded-full border-4 border-white object-cover shadow-xl dark:border-[#16181A] dark:shadow-indigo-900/10"
       />
-      <div className="flex flex-col items-center gap-2">
-        <div className="text-xl font-bold">{profile.nickname}</div>
-        <div className="text-muted-foreground">{profile.bio}</div>
+
+      <div className="z-10 flex flex-col items-center gap-1">
+        <h2 className="text-2xl font-black tracking-tight text-gray-900 dark:text-white">
+          {profile.nickname}
+        </h2>
+        <p className="max-w-xs text-[15px] font-medium text-gray-500 dark:text-gray-400">
+          {profile.bio || "자기소개가 없습니다."}
+        </p>
       </div>
-      {isMine && <EditProfileButton />}
+
+      <div className="mt-2">{isMine && <EditProfileButton />}</div>
     </div>
   );
 }

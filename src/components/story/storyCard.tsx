@@ -1,4 +1,3 @@
-// src/components/story/story-card-with-delete.tsx
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 import { Link } from "react-router-dom";
@@ -10,6 +9,7 @@ import { useSession } from "@/store/session";
 import { useDeleteStory } from "@/hooks/mutations/story/use-delete-story";
 import { useOpenAlertModal } from "@/store/alert-modal";
 import LikeViewComponent from "./like-view-com";
+import Badge from "./badge";
 
 export function StoryCard({ story }: { story: StoryView }) {
   const session = useSession();
@@ -17,26 +17,17 @@ export function StoryCard({ story }: { story: StoryView }) {
   const openAlert = useOpenAlertModal();
 
   return (
-    <Card className="relative cursor-pointer rounded-xl border border-gray-200 bg-white shadow-sm transition hover:shadow-lg">
+    <Card className="group relative flex h-full flex-col overflow-hidden rounded-[24px] border border-gray-100 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] dark:border-gray-800 dark:bg-[#1C1E21]">
       {story.author_id === session?.user.id && (
         <button
-          className="absolute top-1 right-1 rounded-full p-1 text-gray-400 transition hover:bg-gray-100 hover:text-red-500"
-          aria-label="삭제"
+          className="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-1.5 text-gray-400 backdrop-blur-md transition hover:bg-red-50 hover:text-red-500 dark:bg-black/50"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-
             openAlert({
               title: "스토리 삭제",
-              description: "정말로 삭제하시겠습니까?",
-              onPositive: () => {
-                deleteStory(story.id, {
-                  onSuccess: () =>
-                    toast.success("삭제 완료", { position: "top-center" }),
-                  onError: () =>
-                    toast.error("삭제 실패", { position: "top-center" }),
-                });
-              },
+              description: "이 이야기를 영구적으로 삭제하시겠습니까?",
+              onPositive: () => deleteStory(story.id),
             });
           }}
         >
@@ -44,48 +35,43 @@ export function StoryCard({ story }: { story: StoryView }) {
         </button>
       )}
 
-      <Link to={`/story/${story.id}`}>
-        <CardHeader className="my-2 flex flex-wrap justify-end gap-2 text-xs">
-          {story.is_public ? (
-            <span className="rounded-full bg-green-100 px-2 py-1 text-green-700">
-              공개
-            </span>
-          ) : (
-            <span className="rounded-full bg-red-100 px-2 py-1 text-red-600">
-              비공개
-            </span>
-          )}
-
-          <span className="rounded-full bg-gray-100 px-2 py-1 text-gray-600">
-            {story.genre}
-          </span>
-          <span className="rounded-full bg-gray-100 px-2 py-1 text-gray-600">
-            {story.length}초
-          </span>
-          <span className="rounded-full bg-gray-100 px-2 py-1 text-gray-600">
-            {story.ending}
-          </span>
+      <Link to={`/story/${story.id}`} className="flex h-full flex-col">
+        <CardHeader className="flex flex-row flex-wrap gap-2 p-6 pb-0">
+          <Badge color={story.is_public ? "green" : "red"}>
+            {story.is_public ? "공개" : "비공개"}
+          </Badge>
+          <Badge color="gray">{story.genre}</Badge>
+          <Badge color="gray">⏱️ {story.length}s</Badge>
         </CardHeader>
 
-        <CardContent>
-          <p className="line-clamp-10 leading-relaxed whitespace-pre-line text-gray-800">
-            {story.content}
-          </p>
+        <CardContent className="flex flex-1 flex-col p-6">
+          <div className="relative mb-4 flex-1">
+            <p className="line-clamp-6 text-base leading-relaxed whitespace-pre-line text-gray-700 dark:text-gray-300">
+              {story.content}
+            </p>
 
-          <div className="mt-2 text-right text-xs text-gray-400">
-            클릭해서 전체 보기 →
+            <div className="absolute bottom-0 h-12 w-full bg-linear-to-t from-white to-transparent dark:from-[#1C1E21]" />
           </div>
 
-          <LikeViewComponent
-            story={{
-              like_count: story.like_count,
-              liked: story.liked,
-              views: story.views,
-            }}
-          />
+          <div className="mt-auto border-t border-gray-50 pt-4 dark:border-gray-800/50">
+            <div className="flex items-center justify-between">
+              <LikeViewComponent
+                story={{
+                  like_count: story.like_count,
+                  liked: story.liked,
+                  views: story.views,
+                }}
+              />
+              <span className="text-[11px] font-medium text-gray-400">
+                {new Date(story.created_at).toLocaleDateString()}
+              </span>
+            </div>
 
-          <div className="mt-4 flex justify-end text-xs text-gray-400">
-            {new Date(story.created_at).toLocaleDateString()}
+            <div className="mt-3 text-center opacity-0 transition-opacity group-hover:opacity-100">
+              <span className="text-xs font-bold text-indigo-500">
+                전체 읽기 →
+              </span>
+            </div>
           </div>
         </CardContent>
       </Link>

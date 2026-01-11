@@ -13,6 +13,10 @@ export function useDeleteStory(userId: string) {
     mutationFn: deleteStoryByid,
 
     onSuccess: (_, storyId) => {
+      queryClient.removeQueries({
+        queryKey: ["story", "detail", storyId, userId],
+      });
+
       queryClient.setQueryData<InfiniteData<StoryEntity[]>>(
         ["story", "list", "user", userId],
         (old) => {

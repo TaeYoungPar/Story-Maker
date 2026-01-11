@@ -13,7 +13,6 @@ import { useProfileData } from "@/hooks/queries/use-profile-data";
 export default function ProfileButton() {
   const session = useSession();
   const { data: profile } = useProfileData(session?.user.id);
-
   if (!session) return null;
 
   return (

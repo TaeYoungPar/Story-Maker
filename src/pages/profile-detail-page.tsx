@@ -1,4 +1,3 @@
-// import PostFeed from "@/components/post/post-feed";
 import ProfileInfo from "@/components/profile/profile-info";
 import { Navigate, useParams } from "react-router";
 import StoryItems from "./story-Items-page";
@@ -13,7 +12,7 @@ export default function ProfileDetailPage() {
     <div className="flex flex-col gap-10">
       <ProfileInfo userId={userId} />
       <div className="border-b"></div>
-      {<StoryItems userId={userId} />}
+      <StoryItems userId={userId} />
     </div>
   );
 }

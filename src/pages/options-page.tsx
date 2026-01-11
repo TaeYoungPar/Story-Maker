@@ -14,7 +14,7 @@ export default function OptionsPage() {
 
   const { options, setLength, setGenre, setEnding } = useShortsOptions();
   const { mutate, isPending } = useCreateStory({
-    onError: (error) => {
+    onError: () => {
       toast.error("스토리 생성에 실패했습니다.", {
         position: "top-center",
       });
@@ -22,72 +22,99 @@ export default function OptionsPage() {
   });
 
   return (
-    <div className="mx-auto flex max-w-xl flex-col gap-8 px-4 py-10">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold">AI 쇼츠 스토리 빌더</h1>
-        <p className="text-muted-foreground mt-2 text-sm">
-          옵션을 선택하고 바로 스토리를 만들어보세요
+    <div className="mx-auto flex max-w-2xl flex-col gap-10 py-6">
+      <div className="space-y-2 text-center">
+        <h1 className="text-3xl font-black text-gray-900 dark:text-gray-100">
+          AI 쇼츠 스토리 빌더
+        </h1>
+        <p className="font-medium text-gray-500 dark:text-gray-400">
+          원하는 옵션을 조합해 단 하나뿐인 이야기를 만들어보세요.
         </p>
       </div>
 
-      <Card>
-        <CardContent className="flex flex-col gap-4 p-6">
-          <div className="font-semibold">쇼츠 길이</div>
-          <div className="flex gap-2">
-            <div className="flex gap-2">
-              {LENGTHS.map((length) => (
-                <OptionButton
-                  key={length}
-                  label={`${length}초`}
-                  selected={options.length === length}
-                  onClick={() => setLength(length)}
-                />
-              ))}
-            </div>
+      <div className="space-y-6">
+        <section className="space-y-3">
+          <div className="flex items-center gap-2 px-1">
+            <span className="text-lg">⏱️</span>
+            <h2 className="font-bold text-gray-700 dark:text-gray-300">
+              쇼츠 길이
+            </h2>
           </div>
-        </CardContent>
-      </Card>
+          <Card className="overflow-hidden border-gray-100 bg-gray-50/50 dark:border-gray-800 dark:bg-black/10">
+            <CardContent className="p-4">
+              <div className="flex gap-3">
+                {LENGTHS.map((length) => (
+                  <OptionButton
+                    key={length}
+                    label={`${length}초`}
+                    selected={options.length === length}
+                    onClick={() => setLength(length)}
+                  />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </section>
 
-      <Card>
-        <CardContent className="flex flex-col gap-4 p-6">
-          <div className="font-semibold">톤</div>
-          <div className="flex flex-wrap gap-2">
-            {GENRES.map((genre) => (
-              <OptionButton
-                key={genre}
-                label={genre}
-                selected={options.genre === genre}
-                onClick={() => setGenre(genre)}
-              />
-            ))}
+        <section className="space-y-3">
+          <div className="flex items-center gap-2 px-1">
+            <span className="text-lg">🎭</span>
+            <h2 className="font-bold text-gray-700 dark:text-gray-300">
+              스토리 톤
+            </h2>
           </div>
-        </CardContent>
-      </Card>
+          <Card className="overflow-hidden border-gray-100 bg-gray-50/50 dark:border-gray-800 dark:bg-black/10">
+            <CardContent className="p-4">
+              <div className="flex flex-wrap gap-3">
+                {GENRES.map((genre) => (
+                  <OptionButton
+                    key={genre}
+                    label={genre}
+                    selected={options.genre === genre}
+                    onClick={() => setGenre(genre)}
+                  />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </section>
 
-      <Card>
-        <CardContent className="flex flex-col gap-4 p-6">
-          <div className="font-semibold">엔딩</div>
-          <div className="flex gap-2">
-            {ENDINGS.map((ending) => (
-              <OptionButton
-                key={ending}
-                label={ending}
-                selected={options.ending === ending}
-                onClick={() => setEnding(ending)}
-              />
-            ))}
+        <section className="space-y-3">
+          <div className="flex items-center gap-2 px-1">
+            <span className="text-lg">🎬</span>
+            <h2 className="font-bold text-gray-700 dark:text-gray-300">
+              엔딩 스타일
+            </h2>
           </div>
-        </CardContent>
-      </Card>
-
-      <Button
-        size="lg"
-        className="mt-4 w-full"
-        disabled={isPending}
-        onClick={() => mutate(options)}
-      >
-        스토리 생성하기
-      </Button>
+          <Card className="overflow-hidden border-gray-100 bg-gray-50/50 dark:border-gray-800 dark:bg-black/10">
+            <CardContent className="p-4">
+              <div className="flex gap-3">
+                {ENDINGS.map((ending) => (
+                  <OptionButton
+                    key={ending}
+                    label={ending}
+                    selected={options.ending === ending}
+                    onClick={() => setEnding(ending)}
+                  />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+      </div>
+      <div className="pt-4">
+        <Button
+          size="lg"
+          className="h-16 w-full rounded-2xl bg-indigo-600/90 text-lg font-black text-white shadow-xl shadow-violet-100 transition-all hover:cursor-pointer hover:bg-indigo-600 active:scale-[0.98] dark:shadow-none"
+          onClick={() => mutate(options)}
+          disabled={isPending}
+        >
+          {isPending ? "🪄 스토리 생성 중..." : "🪄 스토리 생성하기"}
+        </Button>
+        <p className="mt-4 text-center text-xs font-medium text-gray-400">
+          💡 팁: 짧은 스토리는 반전이 있을수록 조회수가 높아요!
+        </p>
+      </div>
 
       {isPending && <StoryLoadingModal />}
     </div>

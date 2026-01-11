@@ -75,6 +75,7 @@ export type Database = {
           id: number
           is_public: boolean
           length: string
+          title: string
         }
         Insert: {
           author_id?: string
@@ -85,6 +86,7 @@ export type Database = {
           id?: number
           is_public?: boolean
           length: string
+          title: string
         }
         Update: {
           author_id?: string
@@ -95,8 +97,17 @@ export type Database = {
           id?: number
           is_public?: boolean
           length?: string
+          title?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "stories_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       story_likes: {
         Row: {

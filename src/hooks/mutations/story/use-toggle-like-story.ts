@@ -20,19 +20,20 @@ export function useToggleLike() {
       }
     },
 
-    onMutate: async ({ storyId, liked }) => {
+    onMutate: async ({ storyId, userId, liked }) => {
       await queryClient.cancelQueries({
-        queryKey: ["story", "detail", storyId],
+        queryKey: ["story", "detail", storyId, userId],
       });
 
       const prev = queryClient.getQueryData<StoryView>([
         "story",
         "detail",
         storyId,
+        userId,
       ]);
 
       queryClient.setQueryData<StoryView>(
-        ["story", "detail", storyId],
+        ["story", "detail", storyId, userId],
         (story) => {
           if (!story) return story;
           return {
@@ -48,13 +49,16 @@ export function useToggleLike() {
 
     onError: (_err, vars, ctx) => {
       if (ctx?.prev) {
-        queryClient.setQueryData(["story", "detail", vars.storyId], ctx.prev);
+        queryClient.setQueryData(
+          ["story", "detail", vars.storyId, vars.userId],
+          ctx.prev,
+        );
       }
     },
 
     onSettled: (_data, _error, vars) => {
       queryClient.invalidateQueries({
-        queryKey: ["story", "detail", vars.storyId],
+        queryKey: ["story", "detail", vars.storyId, vars.userId],
       });
     },
   });

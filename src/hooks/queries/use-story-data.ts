@@ -4,9 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 
 export function useStoryData(storyId?: number) {
   const session = useSession();
+  const userId = session?.user?.id;
   return useQuery({
-    queryKey: ["story", "detail", storyId],
-    queryFn: () => fetchByStoryIdData(storyId!, session!.user.id),
+    queryKey: ["story", "detail", storyId, userId],
+    queryFn: () => fetchByStoryIdData(storyId!, userId!),
     enabled: !!storyId && !!session?.user,
   });
 }

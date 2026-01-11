@@ -11,12 +11,16 @@ export default function SidebarItem({
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `flex justify-center rounded-md px-4 py-2 transition ${
-          isActive ? "bg-muted" : "hover:bg-muted"
-        } `
+        `group flex items-center rounded-2xl px-6 py-4 transition-all duration-300 ${
+          isActive
+            ? "bg-indigo-500 font-bold text-white shadow-lg shadow-indigo-200 dark:bg-indigo-600 dark:shadow-indigo-900/40"
+            : "text-gray-500 hover:bg-indigo-50 hover:text-indigo-600 dark:text-gray-400 dark:hover:bg-indigo-900/40 dark:hover:text-indigo-200"
+        }`
       }
     >
-      {label}
+      <span className="transition-transform duration-300 group-hover:scale-110">
+        {label}
+      </span>
     </NavLink>
   );
 }

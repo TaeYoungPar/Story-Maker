@@ -9,7 +9,10 @@ export function useCreateStory(callbacks?: UseMutationCallback) {
     mutationFn: createStory,
     onSuccess: (data) => {
       navigate(`/story/${data.id}`, {
-        state: { story: data.story },
+        state: {
+          title: data.title,
+          content: data.content,
+        },
       });
     },
     onError: (error) => {

@@ -17,12 +17,13 @@ export function useToggleStory(storyId: number, userId: string) {
         "story",
         "detail",
         storyId,
+        userId,
       ]);
       const willPublic = prev ? !prev.is_public : true;
 
       // 1) 상세 정보 즉시 반영
       queryClient.setQueryData<StoryEntity>(
-        ["story", "detail", storyId],
+        ["story", "detail", storyId, userId],
         (old) => (old ? { ...old, is_public: willPublic } : old),
       );
 

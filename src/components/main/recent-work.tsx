@@ -12,26 +12,35 @@ export default function RecentWork() {
 
   if (isPending) return <Loader />;
 
-  console.log(data);
   return (
-    <div className="mt-10 w-full max-w-md rounded-xl border p-6">
-      <h2 className="text-muted-foreground mb-4 text-sm font-semibold">
-        최근 작업
-      </h2>
-
+    <div className="w-full p-6">
       {!data || data.length === 0 ? (
-        <div className="flex items-center justify-between">
-          <span className="text-gray-400">
-            아직 작성된 스토리가 없습니다.
-            <Button variant="ghost" size="sm" asChild>
-              <Link to={"/options"}>생성하기</Link>
-            </Button>
-          </span>
+        <div className="flex items-center justify-between text-gray-500">
+          <span>아직 작성된 스토리가 없습니다.</span>
+          <Button
+            variant="link"
+            className="text-indigo-600 dark:text-indigo-400"
+            asChild
+          >
+            <Link to="/options">첫 스토리 만들기</Link>
+          </Button>
         </div>
       ) : (
         <div className="flex items-center justify-between">
-          <span className="text-sm">최근 생성한 스토리</span>
-          <Button variant="ghost" size="sm" asChild>
+          <div className="flex flex-col gap-1">
+            <span className="text-[16px] font-bold text-gray-900 dark:text-gray-100">
+              최근 생성한 스토리
+            </span>
+            <p className="text-sm text-gray-500 italic dark:text-gray-400">
+              "조회수를 높이는 반전 스토리를 생성했습니다"
+            </p>
+          </div>
+
+          <Button
+            variant="ghost"
+            className="font-bold text-indigo-600 hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-indigo-500/10"
+            asChild
+          >
             <Link to={`/story/${data[0].id}`}>확인하기</Link>
           </Button>
         </div>

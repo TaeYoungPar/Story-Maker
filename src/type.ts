@@ -29,4 +29,11 @@ export type StroyExtraType = {
   views: number;
   liked: boolean;
 };
-export type StoryView = StoryEntity & StroyExtraType;
+
+type StoryAuthorInfo = {
+  author?: {
+    nickname: string;
+    avatar_url: string | null;
+  };
+};
+export type StoryView = StoryEntity & StroyExtraType & StoryAuthorInfo;

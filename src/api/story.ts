@@ -18,14 +18,14 @@ export async function fetchByStoryIdData(
     .from("stories")
     .select(
       `
-    *,
-    views:story_views(count),
-    likes:story_likes(count),
-    my_like:story_likes(user_id)
-  `,
+      *,
+      author:author_id (nickname, avatar_url),
+      views:story_views(count),
+      likes:story_likes(count),
+      my_like:story_likes(user_id)
+    `,
     )
     .eq("id", storyId)
-    .eq("story_likes.user_id", userId)
     .single();
 
   if (error) throw error;
@@ -34,7 +34,7 @@ export async function fetchByStoryIdData(
     ...data,
     views: data.views?.[0]?.count ?? 0,
     like_count: data.likes?.[0]?.count ?? 0,
-    liked: data.my_like.length > 0,
+    liked: data.my_like?.some((l: any) => l.user_id === userId) ?? false,
   };
 }
 
@@ -87,7 +87,6 @@ export async function fetchStoriesByUserInfinite(
     `,
     )
     .eq("author_id", userId)
-    .eq("story_likes.user_id", userId)
     .order("created_at", { ascending: false })
     .range(from, to);
 
@@ -98,7 +97,7 @@ export async function fetchStoriesByUserInfinite(
       ...story,
       views: story.views?.[0]?.count ?? 0,
       like_count: story.likes?.[0]?.count ?? 0,
-      liked: story.my_like.length > 0,
+      liked: story.my_like?.some((l: any) => l.user_id === userId) ?? false,
     })) ?? []
   );
 }
@@ -154,7 +153,6 @@ export async function fetchPublicStoriesInfinity(
     `,
     )
     .eq("is_public", true)
-    .eq("story_likes.user_id", userId)
     .order("created_at", { ascending: false })
     .range(from, to);
 
@@ -165,7 +163,7 @@ export async function fetchPublicStoriesInfinity(
       ...story,
       views: story.views?.[0]?.count ?? 0,
       like_count: story.likes?.[0]?.count ?? 0,
-      liked: story.my_like.length > 0,
+      liked: story.my_like?.some((l: any) => l.user_id === userId) ?? false,
     })) ?? []
   );
 }
