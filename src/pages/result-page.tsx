@@ -142,7 +142,7 @@ export default function ResultPage() {
                 className="aspect-square w-full rounded-full bg-indigo-500/10 object-cover"
               />
             </div>
-            <span>작성자: {story.author?.nickname ?? "익명"}</span>
+            <span>작성자: {story.author?.nickname ?? "무명의작가"}</span>
           </Link>
           <span>{new Date(story.created_at).toLocaleDateString()}</span>
         </div>
