@@ -51,7 +51,7 @@ export default function ResultPage() {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
-      <article className="rounded-[32px] border border-gray-100 bg-white p-10 shadow-sm transition-all dark:border-white/5 dark:bg-[#16181A]">
+      <article className="rounded-[32px] border border-gray-100 bg-white p-5 shadow-sm transition-all sm:p-10 dark:border-white/5 dark:bg-[#16181A]">
         <div className="mb-10 flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <span className="text-sm font-black tracking-widest text-indigo-500 uppercase">
@@ -71,7 +71,7 @@ export default function ResultPage() {
             )}
           </div>
 
-          <h1 className="text-4xl leading-tight font-black text-gray-900 dark:text-white">
+          <h1 className="text-2xl leading-tight font-black text-gray-900 sm:text-4xl dark:text-white">
             {story.title || "새로운 이야기의 탄생"}
           </h1>
         </div>
@@ -86,7 +86,7 @@ export default function ResultPage() {
         </div>
 
         <div className="mb-8 flex items-center gap-6 border-y border-gray-50 py-5 dark:border-white/5">
-          <div className="flex items-center gap-2 text-sm font-bold text-gray-500">
+          <div className="flex items-center gap-2 text-xs font-bold text-gray-500 sm:text-sm">
             <span className="text-lg">👀</span>
             <span className="text-gray-900 dark:text-gray-100">
               {story.views.toLocaleString()}
@@ -102,7 +102,7 @@ export default function ResultPage() {
                 liked: story.liked,
               })
             }
-            className={`flex items-center gap-2 text-sm font-bold transition-all hover:scale-105 hover:cursor-pointer ${
+            className={`flex items-center gap-2 text-xs font-bold transition-all hover:scale-105 hover:cursor-pointer sm:text-sm ${
               story.liked ? "text-red-500" : "text-gray-400 hover:text-red-400"
             }`}
           >
@@ -120,7 +120,7 @@ export default function ResultPage() {
           </button>
         </div>
 
-        <div className="relative min-h-80 rounded-[24px] bg-gray-50/50 p-10 text-[17px] leading-[1.8] font-medium whitespace-pre-line text-gray-800 dark:bg-white/5 dark:text-gray-200">
+        <div className="relative min-h-80 rounded-[24px] bg-gray-50/50 p-5 text-[17px] leading-[1.8] font-medium whitespace-pre-line text-gray-800 sm:p-10 dark:bg-white/5 dark:text-gray-200">
           <div className="absolute top-6 left-6 text-4xl font-black text-indigo-500/10">
             "
           </div>
@@ -135,10 +135,13 @@ export default function ResultPage() {
             to={`/profile/${story.author_id}`}
             className="flex items-center gap-3"
           >
-            <img
-              src={story.author?.avatar_url || defaultAvatar}
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-500/10 text-indigo-600"
-            />
+            <div className="w-8 shrink-0 sm:w-7">
+              <img
+                src={story.author?.avatar_url || defaultAvatar}
+                alt="author avatar"
+                className="aspect-square w-full rounded-full bg-indigo-500/10 object-cover"
+              />
+            </div>
             <span>작성자: {story.author?.nickname ?? "익명"}</span>
           </Link>
           <span>{new Date(story.created_at).toLocaleDateString()}</span>

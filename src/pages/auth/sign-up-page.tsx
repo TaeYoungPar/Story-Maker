@@ -51,8 +51,8 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="flex w-full items-center justify-center px-4 dark:bg-[#0F1113]">
-      <div className="w-full max-w-110">
+    <div className="flex w-full items-center justify-center px-4">
+      <div className="animate-in fade-in slide-in-from-bottom-4 w-full max-w-110 duration-500">
         <div className="my-8 text-center">
           <h1 className="text-3xl font-black tracking-tight text-gray-900 dark:text-white">
             계정 만들기
@@ -109,7 +109,7 @@ export default function SignUpPage() {
             <Button
               disabled={isSignUpPending}
               onClick={handleSignUpOnClick}
-              className="mt-2 h-12 w-full rounded-xl bg-indigo-600 text-base font-bold transition-all hover:bg-indigo-700 active:scale-[0.99]"
+              className="mt-2 h-12 w-full cursor-pointer rounded-xl bg-indigo-600 text-base font-bold transition-all hover:bg-indigo-700 active:scale-[0.99]"
             >
               {isSignUpPending ? "가입 요청 중..." : "회원가입 완료"}
             </Button>

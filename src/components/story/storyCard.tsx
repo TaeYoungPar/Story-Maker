@@ -2,7 +2,6 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 import { Link } from "react-router-dom";
 import { X } from "lucide-react";
-import { toast } from "sonner";
 
 import type { StoryView } from "@/type";
 import { useSession } from "@/store/session";

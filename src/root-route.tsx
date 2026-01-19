@@ -28,7 +28,6 @@ export default function RootRoute() {
           <Route path="/sign-up" element={<SignUppage />} />
           <Route path="/sign-in" element={<SignInPage />} />
           <Route path="/forget-password" element={<ForgetPasswordPage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
         </Route>
 
         <Route element={<MemberOnlyLayout />}>
@@ -40,6 +39,7 @@ export default function RootRoute() {
             <Route path="/stories" element={<PublicFeedPage />} />
           </Route>
         </Route>
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
 
         <Route path="*" element={<Navigate to={"/"} />} />
       </Route>
